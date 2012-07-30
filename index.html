@@ -5,9 +5,7 @@
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>	
 		<script src="javascripts/bootstrap-datepicker.js" type="text/javascript"></script>	
 		<script src="javascripts/bootstrap-modal.js" type="text/javascript"></script>	
-		<script src="http://gogler.nordplaner.dev/assets/jquery_ujs.js" type="text/javascript"></script>
-		<script src="javascripts/custom.js" type="text/javascript"></script>	
-		<link href="stylesheets/bootstrap.css" rel="stylesheet">
+		<link href="stylesheets/bootstrap.css" rel="stylesheet"/>
 	</head>
 	<body>
 		<div class="modal hide" id="myModal">
@@ -16,9 +14,7 @@
 			<h3>Modal header</h3>
 		</div>
 		<div class="modal-body">
-			<a href="#" class="ajax_link">Click</a>
-			<div class="ajax_container">
-			</div>
+            <div id="ajax_container"></div>
 		</div>
 		<div class="modal-footer">
 			<a href="#" class="btn" data-dismiss="modal">Close</a>
@@ -30,5 +26,28 @@
 			<input type="text" class="datepicker"/>
 		</div>
 		<a class="btn" data-toggle="modal" href="#myModal" >Launch Modal</a>
+<script>
+    fetchDatePicker = function () {
+        console.log("fetching datepicker field")
+        var ajaxContainer = $("#ajax_container");
+        var formUrl       = "response.html";
+        $.ajax({
+            url: formUrl,
+            dataType: "html",
+            type: 'GET',
+            success: function(data) {
+                ajaxContainer.html(data);
+            }
+        });
+    }
+    $(document).ready(function() {
+        $('#myModal').on("show", function(event) {
+            fetchDatePicker();            
+        });
+        $(document).on("focus", ".datepicker", function(e) {
+            $(this).datepicker({"format": "yyyy-mm-dd", "weekStart": 1, "autoclose": true});
+        });
+    });  
+</script>
 	</body>
 </html>
